@@ -4,6 +4,9 @@
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
+<<<<<<< HEAD
     <bytecodeTargetLevel target="1.8" />
+=======
+>>>>>>> origin/vioce
   </component>
 </project>

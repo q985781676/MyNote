@@ -17,7 +17,11 @@ import com.example.android.mynote.dao.NoteDao;
  * @create 2020-05-29 11:25
  */
 
+<<<<<<< HEAD
 @Database(entities = {Note.class},version = 2,exportSchema = false)
+=======
+@Database(entities = {Note.class},version = 1,exportSchema = false)
+>>>>>>> origin/vioce
 @TypeConverters({Converters.class})
 public abstract class NoteDatabase extends RoomDatabase {
 
@@ -26,7 +30,10 @@ public abstract class NoteDatabase extends RoomDatabase {
     public synchronized static NoteDatabase getINSTANCE(Context context) {
         if (INSTANCE==null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),NoteDatabase.class,"note_datebase")
+<<<<<<< HEAD
                     .fallbackToDestructiveMigration()
+=======
+>>>>>>> origin/vioce
                     .build();
         }
         return INSTANCE;

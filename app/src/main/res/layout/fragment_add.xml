@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+=======
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+>>>>>>> origin/vioce
     tools:context=".fragment.EditorFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -19,4 +28,19 @@
         android:textSize="22sp"
         />
 
+<<<<<<< HEAD
 </FrameLayout>
+=======
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_keyboard_voice_black_24dp" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+>>>>>>> origin/vioce

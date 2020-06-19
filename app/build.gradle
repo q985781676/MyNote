@@ -1,12 +1,20 @@
 apply plugin: 'com.android.application'
 
 android {
+<<<<<<< HEAD
     compileSdkVersion 29
+=======
+    compileSdkVersion 28
+>>>>>>> origin/vioce
     buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "com.example.android.mynote"
         minSdkVersion 16
+<<<<<<< HEAD
         targetSdkVersion 29
+=======
+        targetSdkVersion 28
+>>>>>>> origin/vioce
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,8 +46,11 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.2.2'
 
 
+<<<<<<< HEAD
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+=======
+>>>>>>> origin/vioce
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
 
@@ -49,4 +60,8 @@ dependencies {
     // For Kotlin use kapt instead of annotationProcessor
     // Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
+<<<<<<< HEAD
+=======
+    implementation project(path: ':core')
+>>>>>>> origin/vioce
 }

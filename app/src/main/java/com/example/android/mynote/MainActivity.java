@@ -1,6 +1,7 @@
 package com.example.android.mynote;
 
 import android.content.Context;
+<<<<<<< HEAD
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,22 +9,34 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.RequiresApi;
+=======
+import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+
+>>>>>>> origin/vioce
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+<<<<<<< HEAD
 import com.example.android.mynote.entity.User;
 import com.example.android.mynote.util.HttpUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
+=======
+>>>>>>> origin/vioce
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
 
+<<<<<<< HEAD
     @RequiresApi(api = Build.VERSION_CODES.N)
+=======
+>>>>>>> origin/vioce
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,9 +46,12 @@ public class MainActivity extends AppCompatActivity {
         //使用NavigationUI对导航栏回退进行显示，无功能
         navController = Navigation.findNavController(viewById);
         NavigationUI.setupActionBarWithNavController(this,navController);
+<<<<<<< HEAD
 
         //testPostForm();
         //testPostJson();
+=======
+>>>>>>> origin/vioce
     }
 
     /**
@@ -53,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+<<<<<<< HEAD
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void testPostForm(){
         Map<String,String> map = new HashMap<>();
@@ -77,4 +94,6 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+=======
+>>>>>>> origin/vioce
 }
