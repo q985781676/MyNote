@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:autoMirrored="true"
+    android:dither="true"
+    android:enterFadeDuration="400"
+    android:exitFadeDuration="1000"
+    android:variablePadding="false"
+    android:visible="true"
+    android:constantSize="true">
+
+    <item android:drawable="@color/colorClick" android:state_pressed="true" />
+
+
+</selector>
