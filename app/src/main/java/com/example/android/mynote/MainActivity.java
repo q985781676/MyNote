@@ -1,19 +1,29 @@
 package com.example.android.mynote;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.android.mynote.entity.User;
+import com.example.android.mynote.util.HttpUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     private NavController navController;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
         //使用NavigationUI对导航栏回退进行显示，无功能
         navController = Navigation.findNavController(viewById);
         NavigationUI.setupActionBarWithNavController(this,navController);
+
+        //testPostForm();
+        //testPostJson();
     }
 
     /**
@@ -40,4 +53,28 @@ public class MainActivity extends AppCompatActivity {
         return super.onSupportNavigateUp();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void testPostForm(){
+        Map<String,String> map = new HashMap<>();
+        map.put("name","zs");
+        map.put("password","123");
+        try {
+            String postRequest = HttpUtils.postRequestForm(HttpUtils.BASE_URL+"/test", map);
+            Log.d("my_activity", "onCreate: "+postRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void testPostJson(){
+        User user = new User();
+        user.setUserName("ls");
+        user.setPassword("123456");
+        try {
+            String postRequest = HttpUtils.postRequestJson(HttpUtils.BASE_URL+"/testPostJson",user);
+            Log.d("my_activity", "onCreate: "+postRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

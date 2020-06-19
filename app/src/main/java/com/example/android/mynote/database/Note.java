@@ -29,4 +29,6 @@ public class Note implements Serializable {
     @ColumnInfo(name = "last_update_time")
     private Date lastUpdateTime;
 
+    @ColumnInfo(name = "flag",defaultValue = "1")
+    private Integer flag;
 }

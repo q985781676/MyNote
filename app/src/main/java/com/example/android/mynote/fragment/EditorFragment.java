@@ -147,10 +147,7 @@ public class EditorFragment extends Fragment {
                 noteViewModel.insertNotes(note);
             }
         }
-
-
     }
-
 
     @Override
     public void onResume() {

@@ -17,7 +17,7 @@ import com.example.android.mynote.dao.NoteDao;
  * @create 2020-05-29 11:25
  */
 
-@Database(entities = {Note.class},version = 1,exportSchema = false)
+@Database(entities = {Note.class},version = 2,exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class NoteDatabase extends RoomDatabase {
 
@@ -26,6 +26,7 @@ public abstract class NoteDatabase extends RoomDatabase {
     public synchronized static NoteDatabase getINSTANCE(Context context) {
         if (INSTANCE==null) {
             INSTANCE = Room.databaseBuilder(context.getApplicationContext(),NoteDatabase.class,"note_datebase")
+                    .fallbackToDestructiveMigration()
                     .build();
         }
         return INSTANCE;
