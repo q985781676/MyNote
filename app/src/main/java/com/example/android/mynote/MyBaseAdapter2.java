@@ -45,6 +45,11 @@ public class MyBaseAdapter2 extends BaseAdapter {
         View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.menulistlayout,null);
 
 
+//        //表示状态为已登录
+//        if(position==0&&MainActivity.ifLogin==1){
+//            return null;
+//        }
+
         TextView textView2=view.findViewById(R.id.textView8);
 
         textView2.setText(inf.get(position));
@@ -56,11 +61,11 @@ public class MyBaseAdapter2 extends BaseAdapter {
 
 
         Resources resources = mContext.getResources();
-        if(position==0) {
+        if(inf.get(position)=="登录") {
             Drawable drawable = resources.getDrawable(R.drawable.login_black_24dp);
             imageView.setImageDrawable(drawable);
         }
-        else if(position==1){
+        else if(inf.get(position)=="同步"){
             Drawable drawable = resources.getDrawable(R.drawable.ic_sync_black_24dp);
             imageView.setImageDrawable(drawable);
         }

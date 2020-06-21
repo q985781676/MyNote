@@ -1,13 +1,18 @@
 package com.example.android.mynote;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 
@@ -31,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
 
     //###############################################################
     //UI控件
+
+
+    //获取当前mainActivity的引用
+    private Context mainContext;
+    //侧滑layout的引用
     private DrawerLayout drawerlayout;
     private ListView listView;   //主页面的list
     private ListView listView2;  //侧滑的list
@@ -38,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     private String[] mPlanetTitles;
+    private MyBaseAdapter2 myBaseAdapter2;   //侧滑栏的list的adapter
     //private Toolbar toolbar;
 
     private ActionBarDrawerToggle drawerToggle;
@@ -47,12 +58,20 @@ public class MainActivity extends AppCompatActivity {
 //###############################################################
 
 
+    public static int ifLogin=0;  //用来控制是否已登录,登录则为1
+
+    //登录后使用下面这两句来去掉登录选项,同时让静态变量ifLogin设为1
+//     inf2.remove("登录");
+//        myBaseAdapter2.notifyDataSetChanged();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         View viewById = findViewById(R.id.fragment);
 
+        mainContext=this;
 
         //初始化常用的layout
         InitLayout();
@@ -60,10 +79,34 @@ public class MainActivity extends AppCompatActivity {
         InitList();
 
 
+        //返回键
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+
+
         //使用NavigationUI对导航栏回退进行显示，无功能
         navController = Navigation.findNavController(viewById);
         NavigationUI.setupActionBarWithNavController(this,navController);
     }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                                if (drawerlayout.isDrawerOpen(GravityCompat.START)){
+                    drawerlayout.closeDrawer(GravityCompat.START);
+                } else {
+                    drawerlayout.openDrawer(GravityCompat.START);
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     /**
      * 实现navigation的回退
@@ -160,8 +203,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         listView2=findViewById(R.id.listView2);
-        MyBaseAdapter2 myBaseAdapter2=new MyBaseAdapter2(inf2,this);
+       myBaseAdapter2=new MyBaseAdapter2(inf2,this);
         listView2.setAdapter(myBaseAdapter2);
 
 
@@ -172,11 +216,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                if(position==0){
+
+                if((listView2.getItemAtPosition(position).toString())=="登录"){
                     //登录
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
                 }
-                else if(position==1){
+                else if((listView2.getItemAtPosition(position).toString())=="同步"){
                     //同步
+
+
                 }
             }
         });
