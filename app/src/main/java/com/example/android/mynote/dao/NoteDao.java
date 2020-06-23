@@ -22,6 +22,9 @@ public interface NoteDao {
     @Insert
     void insertNotes(Note... notes);
 
+    @Insert
+    void insertNoteLists(List<Note>... notes);
+
     @Update
     void updateNotes(Note... notes);
 

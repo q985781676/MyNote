@@ -40,6 +40,11 @@ public class NoteViewModel extends AndroidViewModel {
         repository.insertNotes(notes);
     }
 
+    public void insertNoteLists(List<Note> lists){
+        repository.insertNoteLists(lists);
+    }
+
+
     public void updateNotes(Note... notes){
         repository.updateNotes(notes);
     }

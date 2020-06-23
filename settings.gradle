@@ -1,6 +1,4 @@
-<<<<<<< HEAD
-include ':app'
-=======
+
 include ':app', ':core'
->>>>>>> origin/vioce
+
 rootProject.name='MyNote'

@@ -13,7 +13,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,12 +32,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.android.mynote.R;
-import com.example.android.mynote.view.MyAdapt;
 import com.example.android.mynote.database.Note;
+import com.example.android.mynote.entity.User;
+import com.example.android.mynote.util.HttpUtil;
+import com.example.android.mynote.view.MyAdapt;
 import com.example.android.mynote.viewmodel.NoteViewModel;
+import com.example.android.mynote.viewmodel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -57,6 +64,13 @@ public class NotesFragment extends Fragment {
     //操作标识,只有更新时候才上移。更新删除保持不动
     private boolean undoAction;
 
+    //侧滑listView
+    private TextView textView_login;
+    private TextView textView_refresh;
+    private TextView textView_username;
+    private LinearLayout loginLinearLayout;
+    //用户viewModel
+    private UserViewModel userViewModel;
     /**
      * 实时保存数据列表，防止通过liveData时直接获取元素时因为异步获取，发生空指针异常
      * 主要用于标记滑动删除中的撤销
@@ -258,5 +272,41 @@ public class NotesFragment extends Fragment {
             }
         }).attachToRecyclerView(recyclerView);
 
+
+        //处理 登录/注册 后进入首页 进行信息回显
+        textView_username = fragmentActivity.findViewById(R.id.textView_username);
+        userViewModel = new ViewModelProvider(fragmentActivity).get(UserViewModel.class);
+        loginLinearLayout = fragmentActivity.findViewById(R.id.loginLinear);
+        userViewModel.getUserMutableLiveData().observe(getViewLifecycleOwner(), user -> {
+            textView_username.setText(user.getUserName());
+            loginLinearLayout.setVisibility(View.GONE);
+        });
+        //处理登录导航
+        textView_login = fragmentActivity.findViewById(R.id.textView_login);
+        textView_login.setOnClickListener(v -> {
+            NavController navController = Navigation.findNavController(v);
+            navController.navigate(R.id.action_notesFragment_to_loginFragment);
+        });
+        //处理同步
+        textView_refresh = fragmentActivity.findViewById(R.id.textView_refresh);
+        textView_refresh.setOnClickListener(v -> {
+            User user = userViewModel.getUserMutableLiveData().getValue();
+            if (user==null){
+                NavController navController = Navigation.findNavController(v);
+                navController.navigate(R.id.action_notesFragment_to_loginFragment);
+            }else {
+                Toast.makeText(fragmentActivity,"同步中...",Toast.LENGTH_SHORT).show();
+                List<Note> list = null;
+                //数据传入服务器，并读回需要添加的结果
+                try {
+                    list = HttpUtil.postRequestList(HttpUtil.BASE_URL + "/", Collections.singletonList(noteViewModel.getAllNoteLive().getValue()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                noteViewModel.insertNoteLists(list);
+            }
+        });
     }
+
+
 }
