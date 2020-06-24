@@ -18,6 +18,7 @@ import com.example.android.mynote.R;
 import com.example.android.mynote.database.Note;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * RecycleView's Adapt
@@ -32,7 +33,7 @@ public class MyAdapt extends ListAdapter<Note, MyAdapt.MyViewHolder> {
         super(new DiffUtil.ItemCallback<Note>() {
             @Override
             public boolean areItemsTheSame(@NonNull Note oldItem, @NonNull Note newItem) {
-                return oldItem.getId() == newItem.getId();
+                return oldItem.getNoteId() == newItem.getNoteId();
             }
 
             @Override
@@ -66,7 +67,7 @@ public class MyAdapt extends ListAdapter<Note, MyAdapt.MyViewHolder> {
         holder.textView_title.setText(note.getTitle());
         //对日期格式化再输出
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        holder.textView_time.setText(simpleDateFormat.format(note.getLastUpdateTime()));
+        holder.textView_time.setText(simpleDateFormat.format(new Date(note.getLastUpdateTime())));
 
         holder.itemView.setOnClickListener(v -> {
             Bundle bundle = new Bundle();

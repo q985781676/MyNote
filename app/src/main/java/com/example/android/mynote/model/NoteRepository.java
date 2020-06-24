@@ -41,12 +41,6 @@ public class NoteRepository {
         new InsertAsyncTask(noteDao).execute(notes);
     }
 
-    public void insertNoteLists(List<Note>... lists){
-        new InsertListAsyncTask(noteDao).execute(lists);
-    }
-
-
-
     public void updateNotes(Note... notes){
         new UpdateAsyncTask(noteDao).execute(notes);
     }
@@ -73,20 +67,6 @@ public class NoteRepository {
         @Override
         protected Void doInBackground(Note... notes) {
             noteDao.insertNotes(notes);
-            return null;
-        }
-    }
-    static class InsertListAsyncTask extends AsyncTask<List<Note>, Void, Void>{
-
-        private NoteDao noteDao;
-
-        InsertListAsyncTask(NoteDao noteDao) {
-            this.noteDao = noteDao;
-        }
-
-        @Override
-        protected Void doInBackground(List<Note>... lists) {
-            noteDao.insertNoteLists(lists);
             return null;
         }
     }

@@ -175,7 +175,8 @@ public class EditorFragment extends Fragment implements EventListener {
             //设值修改
             note.setTitle(title);
             note.setContent(newContent);
-            note.setLastUpdateTime(new Date());
+            note.setLastUpdateTime(new Date().getTime());
+            note.setFlag(1);
             noteViewModel.updateNotes(note);
 
         } else {
@@ -196,8 +197,8 @@ public class EditorFragment extends Fragment implements EventListener {
                 Note note = new Note();
                 note.setTitle(title);
                 note.setContent(newContent);
-                note.setLastUpdateTime(new Date());
-
+                note.setLastUpdateTime(new Date().getTime());
+                note.setFlag(1);
                 Log.d(TAG, "onPause: " + note);
                 noteViewModel.insertNotes(note);
             }

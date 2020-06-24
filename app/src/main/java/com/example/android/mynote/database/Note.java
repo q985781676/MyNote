@@ -5,7 +5,6 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 
@@ -18,7 +17,8 @@ import lombok.Data;
 @Entity(tableName = "note")
 public class Note implements Serializable {
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    @ColumnInfo(name = "note_id")
+    private int noteId;
 
     @ColumnInfo(name = "title")
     private String title;
@@ -27,7 +27,7 @@ public class Note implements Serializable {
     private String content;
 
     @ColumnInfo(name = "last_update_time")
-    private Date lastUpdateTime;
+    private Long lastUpdateTime;
 
     @ColumnInfo(name = "flag",defaultValue = "1")
     private Integer flag;

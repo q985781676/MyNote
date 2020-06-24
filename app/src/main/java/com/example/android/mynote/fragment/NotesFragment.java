@@ -6,7 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -40,9 +43,13 @@ import com.example.android.mynote.viewmodel.NoteViewModel;
 import com.example.android.mynote.viewmodel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
-import java.util.Collections;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -152,6 +159,7 @@ public class NotesFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_notes, container, false);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -289,6 +297,8 @@ public class NotesFragment extends Fragment {
         });
         //处理同步
         textView_refresh = fragmentActivity.findViewById(R.id.textView_refresh);
+        //json处理
+        Gson gson = new Gson();
         textView_refresh.setOnClickListener(v -> {
             User user = userViewModel.getUserMutableLiveData().getValue();
             if (user==null){
@@ -296,13 +306,27 @@ public class NotesFragment extends Fragment {
                 navController.navigate(R.id.action_notesFragment_to_loginFragment);
             }else {
                 Toast.makeText(fragmentActivity,"同步中...",Toast.LENGTH_SHORT).show();
+                //初始化提交信息
+                Map<String, String> map = new HashMap<>();
+                //注入用户名
+                map.put("userName",userViewModel.getUserMutableLiveData().getValue().getUserName());
+                //注入当前列表
+                map.put("list",gson.toJson(noteViewModel.getAllNoteLive().getValue()));
+                //存储结果集
                 List<Note> list = null;
                 //数据传入服务器，并读回需要添加的结果
                 try {
-                    list = HttpUtil.postRequestList(HttpUtil.BASE_URL + "/", Collections.singletonList(noteViewModel.getAllNoteLive().getValue()));
+                    //得到服务器返回结果
+                    String json = HttpUtil.postRequestForm(HttpUtil.BASE_URL + "/note", map);
+                    //利用反射新建类型List<Note>，大坑！！！！！
+                    Type typeNotes = new TypeToken<List<Note>>(){}.getType();
+                    //反序列化
+                    list = gson.fromJson(json,typeNotes);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                //将结果同步到本地数据库
+                Log.d("note_list", "onActivityCreated: "+list);
                 noteViewModel.insertNoteLists(list);
             }
         });

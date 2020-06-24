@@ -1,8 +1,10 @@
 package com.example.android.mynote.viewmodel;
 
 import android.app.Application;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
@@ -40,8 +42,13 @@ public class NoteViewModel extends AndroidViewModel {
         repository.insertNotes(notes);
     }
 
-    public void insertNoteLists(List<Note> lists){
-        repository.insertNoteLists(lists);
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void insertNoteLists(List<Note> list){
+        if (list==null){
+            return;
+        }
+        Note[] notes = list.toArray(new Note[list.size()]);
+        repository.insertNotes(notes);
     }
 
 
